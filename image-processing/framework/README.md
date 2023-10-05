@@ -1,6 +1,6 @@
 # framework
 
-## About this repository
+## About
 
 This is a framework made by 3 students from my university.
 
