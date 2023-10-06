@@ -58,6 +58,6 @@
                 Foreground="{Binding Path=Theme.ButtonForegroundColor}"
                 Background="{Binding Path=Theme.ButtonBackgroundColor}"
                 BorderBrush="{Binding Path=Theme.ButtonBorderBrush}"
-                Command="{Binding Path=CloseCommand}"/>
+                Command="{Binding Path=SubmitCommand}"/>
     </Grid>
 </Window>

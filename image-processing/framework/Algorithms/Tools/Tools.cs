@@ -1,4 +1,5 @@
-﻿using Emgu.CV;
+﻿using Algorithms.Sections;
+using Emgu.CV;
 using Emgu.CV.Structure;
 
 namespace Algorithms.Tools
@@ -55,6 +56,34 @@ namespace Algorithms.Tools
             Image<Gray, byte> result = inputImage.Convert<Gray, byte>();
             return result;
         }
+        #endregion
+
+        #region Thresholding
+
+        public static Image<Gray, byte> Thresholding(Image<Gray, byte> inputImage, byte threshold)
+        {
+            Image<Gray, byte> result = new Image<Gray, byte>(inputImage.Size);
+
+            for (int y = 0; y < inputImage.Height;y++)
+            {
+                for (int x = 0; x < inputImage.Width; x++)
+                {
+                    if (inputImage.Data[y, x, 0] < threshold)
+                    {
+                        continue;
+                    }
+                    result.Data[y, x, 0] = byte.MaxValue;
+                }
+            }
+
+            return result;
+        }
+
+        public static Image<Gray, byte> Thresholding(Image<Bgr, byte> inputImage, byte threshold)
+        {
+            return Thresholding(inputImage.Convert<Gray, byte>(), threshold);
+        }
+
         #endregion
     }
 }

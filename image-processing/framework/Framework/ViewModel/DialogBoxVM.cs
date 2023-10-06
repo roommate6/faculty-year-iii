@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Framework.View;
 using Framework.Model;
 using Framework.Utilities;
+using System.Windows;
 
 namespace Framework.ViewModel
 {
@@ -25,25 +26,16 @@ namespace Framework.ViewModel
             }
         }
 
-        public List<double> GetValues()
+        public List<string> GetValues()
         {
-            var values = new List<double>();
+            var values = new List<string>();
 
             foreach (var parameter in Parameters)
             {
-                string text = parameter.InputText;
-                if (text == null || text.Trim().Length == 0 || IsNumeric(text) == false)
-                    values.Add(0);
-                else
-                    values.Add(double.Parse(text));
+                values.Add(parameter.InputText);
             }
 
             return values;
-        }
-
-        private bool IsNumeric(string text)
-        {
-            return double.TryParse(text, out _);
         }
 
         #region Properties and commands
@@ -55,20 +47,39 @@ namespace Framework.ViewModel
         public ObservableCollection<DialogBoxParameter> Parameters { get; } =
             new ObservableCollection<DialogBoxParameter>();
 
-        private ICommand _closeCommand;
-        public ICommand CloseCommand
+        private ICommand _submitCommand;
+        public ICommand SubmitCommand
         {
             get
             {
-                if (_closeCommand == null)
-                    _closeCommand = new RelayCommand(p =>
+                if (_submitCommand == null)
+                    _submitCommand = new RelayCommand(p =>
                     {
-                        DataProvider.CloseWindow<DialogBox>();
+                        DataProvider.CloseWindow<DialogBox>(true);
                     });
 
-                return _closeCommand;
+                return _submitCommand;
             }
         }
+
+        public byte InputSize
+        {
+            get
+            {
+                byte size = 0;
+
+                foreach (var parameter in Parameters)
+                {
+                    if (parameter.InputText != null && parameter.InputText != string.Empty)
+                    {
+                        ++size;
+                    }
+                }
+
+                return size;
+            }
+        }
+
         #endregion
     }
 }

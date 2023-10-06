@@ -16,6 +16,9 @@ using static Framework.Converters.ImageConverter;
 using Algorithms.Sections;
 using Algorithms.Tools;
 using Algorithms.Utilities;
+using Framework.Utilities;
+using System.Collections.Generic;
+using System;
 
 namespace Framework.ViewModel
 {
@@ -591,6 +594,76 @@ namespace Framework.ViewModel
                 MessageBox.Show("It is possible to convert only color images !");
             }
         }
+        #endregion
+
+        #region Thresholding
+
+        private ICommand _thresholdingCommand;
+
+        public ICommand ThresholdingCommand
+        {
+            get
+            {
+                if (_thresholdingCommand == null)
+                {
+                    _thresholdingCommand = new RelayCommand(ThresholdingProcedure);
+                }
+                return _thresholdingCommand;
+            }
+        }
+
+        private void ThresholdingProcedure(object parameter)
+        {
+            if (InitialImage == null)
+            {
+                MessageBox.Show(Constant.Message.NullInitialImage);
+                return;
+            }
+
+            List<string> parameterHeaders = new List<string>
+            {
+                "Threshold"
+            };
+            DialogBox dialogBox = new DialogBox(_mainVM, parameterHeaders);
+            bool? dialogResult = dialogBox.ShowDialog();
+            if (!dialogResult.Value)
+            {
+                return;
+            }
+            if (dialogBox.GetValues().Count != dialogBox.InputSize)
+            {
+                MessageBox.Show(Constant.Message.ArgumentsMissingInDialogBox);
+                return;
+            }
+
+            List<string> inputValues = dialogBox.GetValues();
+            byte threshold;
+            if (!byte.TryParse(inputValues[0],out threshold))
+            {
+                MessageBox.Show(Constant.Message.ParsingStringToByte);
+                return;
+            }
+            if (threshold < Constant.Number.ThresholdLeftBound ||
+                threshold > Constant.Number.ThresholdRightBound)
+            {
+                MessageBox.Show(Constant.Message.ByteOutOfBounds(Constant.Number.ThresholdLeftBound,
+                    Constant.Number.ThresholdRightBound));
+                return;
+            }
+
+            ClearProcessedCanvas(parameter);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = Tools.Thresholding(GrayInitialImage, threshold);
+            }
+            else
+            {
+                GrayProcessedImage = Tools.Thresholding(ColorInitialImage, threshold);
+            }
+            ProcessedImage = Convert(GrayProcessedImage);
+        }
+
         #endregion
 
         #endregion

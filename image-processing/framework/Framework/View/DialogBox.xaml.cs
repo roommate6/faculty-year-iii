@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Framework.ViewModel;
+using System.ComponentModel;
+using Framework.Utilities;
 
 namespace Framework.View
 {
@@ -21,9 +23,17 @@ namespace Framework.View
             DataContext = _dialogBoxVM;
         }
 
-        public List<double> GetValues()
+        public List<string> GetValues()
         {
             return _dialogBoxVM.GetValues();
+        }
+
+        public byte InputSize
+        {
+            get
+            {
+                return _dialogBoxVM.InputSize;
+            }
         }
     }
 }

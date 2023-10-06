@@ -31,11 +31,16 @@ namespace Framework.Utilities
             VectorOfMousePosition = new PointCollection();
         }
 
-        public static void CloseWindow<TWindow>()
+        public static void CloseWindow<TWindow>(bool? dialogResult = null)
             where TWindow : Window
         {
             var window = Application.Current.Windows.OfType<TWindow>().SingleOrDefault(w => w.IsActive);
-            window?.Close();
+            if (window == null)
+            {
+                return;
+            }
+            window.DialogResult = dialogResult;
+            window.Close();
         }
 
         public static void CloseWindows()
