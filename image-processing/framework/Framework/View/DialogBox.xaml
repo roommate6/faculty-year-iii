@@ -38,11 +38,11 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Path=ParamText}"
+                        <TextBlock Text="{Binding Path=Label}"
                                    Height="{Binding Path=Height}"
                                    Foreground="{Binding Path=Foreground}"/>
 
-                        <TextBox Text="{Binding Path=InputText}"
+                        <TextBox Text="{Binding Path=Value}"
                                  Height="{Binding Path=Height}"/>
                     </StackPanel>
                 </DataTemplate>

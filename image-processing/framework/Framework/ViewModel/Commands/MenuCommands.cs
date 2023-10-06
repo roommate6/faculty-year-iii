@@ -13,12 +13,10 @@ using static Framework.Utilities.FileHelper;
 using static Framework.Utilities.DrawingHelper;
 using static Framework.Converters.ImageConverter;
 
-using Algorithms.Sections;
 using Algorithms.Tools;
 using Algorithms.Utilities;
 using Framework.Utilities;
 using System.Collections.Generic;
-using System;
 
 namespace Framework.ViewModel
 {
@@ -614,40 +612,9 @@ namespace Framework.ViewModel
 
         private void ThresholdingProcedure(object parameter)
         {
-            if (InitialImage == null)
+            byte? threshold = TestThresholdingProcedure();
+            if (threshold == null)
             {
-                MessageBox.Show(Constant.Message.NullInitialImage);
-                return;
-            }
-
-            List<string> parameterHeaders = new List<string>
-            {
-                "Threshold"
-            };
-            DialogBox dialogBox = new DialogBox(_mainVM, parameterHeaders);
-            bool? dialogResult = dialogBox.ShowDialog();
-            if (!dialogResult.Value)
-            {
-                return;
-            }
-            if (dialogBox.GetValues().Count != dialogBox.InputSize)
-            {
-                MessageBox.Show(Constant.Message.ArgumentsMissingInDialogBox);
-                return;
-            }
-
-            List<string> inputValues = dialogBox.GetValues();
-            byte threshold;
-            if (!byte.TryParse(inputValues[0],out threshold))
-            {
-                MessageBox.Show(Constant.Message.ParsingStringToByte);
-                return;
-            }
-            if (threshold < Constant.Number.ThresholdLeftBound ||
-                threshold > Constant.Number.ThresholdRightBound)
-            {
-                MessageBox.Show(Constant.Message.ByteOutOfBounds(Constant.Number.ThresholdLeftBound,
-                    Constant.Number.ThresholdRightBound));
                 return;
             }
 
@@ -655,11 +622,11 @@ namespace Framework.ViewModel
 
             if (GrayInitialImage != null)
             {
-                GrayProcessedImage = Tools.Thresholding(GrayInitialImage, threshold);
+                GrayProcessedImage = Tools.Thresholding(GrayInitialImage, threshold.Value);
             }
             else
             {
-                GrayProcessedImage = Tools.Thresholding(ColorInitialImage, threshold);
+                GrayProcessedImage = Tools.Thresholding(ColorInitialImage, threshold.Value);
             }
             ProcessedImage = Convert(GrayProcessedImage);
         }
@@ -723,6 +690,71 @@ namespace Framework.ViewModel
 
             ClearProcessedCanvas(canvases[1] as Canvas);
         }
+        #endregion
+
+        #region Tests
+
+        #region Validators
+
+        private bool InitialImageMissing()
+        {
+            if (InitialImage == null)
+            {
+                MessageBox.Show(Constant.Message.NullInitialImage);
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Procedures tests
+
+        private byte? TestThresholdingProcedure()
+        {
+            if (InitialImageMissing())
+            {
+                return null;
+            }
+
+            List<string> labels = new List<string>
+            {
+                "Threshold"
+            };
+
+            DialogBox dialogBox = new DialogBox(_mainVM, labels);
+            bool? dialogResult = dialogBox.ShowDialog();
+            if (!dialogResult.HasValue || dialogResult.Value == false)
+            {
+                return null;
+            }
+
+            List<string> values = dialogBox.Values;
+            if (values.Count != dialogBox.AmountOfNonemptyValues)
+            {
+                MessageBox.Show(Constant.Message.ArgumentsMissingInDialogBox);
+                return null;
+            }
+
+            byte threshold;
+            if (!byte.TryParse(values[0], out threshold))
+            {
+                MessageBox.Show(Constant.Message.ParsingStringToByte);
+                return null;
+            }
+            if (threshold < Constant.Number.ThresholdLeftBound ||
+                threshold > Constant.Number.ThresholdRightBound)
+            {
+                MessageBox.Show(Constant.Message.ByteOutOfBounds(Constant.Number.ThresholdLeftBound,
+                    Constant.Number.ThresholdRightBound));
+                return null;
+            }
+
+            return threshold;
+        }
+
+        #endregion
+
         #endregion
     }
 }

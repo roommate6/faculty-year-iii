@@ -11,6 +11,38 @@ namespace Framework.View
     {
         private readonly DialogBoxVM _dialogBoxVM;
 
+        #region Properties
+
+        public List<string> Values
+        {
+            get
+            {
+                return _dialogBoxVM.GetValues();
+            }
+        }
+
+        public int AmountOfNonemptyValues
+        {
+            get
+            {
+                List<string> values = Values;
+
+                int size = 0;
+
+                foreach(string value in values)
+                {
+                    if (value != string.Empty)
+                    {
+                        ++size;
+                    }
+                }
+
+                return size;
+            }
+        }
+
+        #endregion
+
         public DialogBox(MainVM mainVM, List<string> parameters)
         {
             InitializeComponent();
@@ -21,19 +53,6 @@ namespace Framework.View
             _dialogBoxVM.CreateParameters(parameters);
 
             DataContext = _dialogBoxVM;
-        }
-
-        public List<string> GetValues()
-        {
-            return _dialogBoxVM.GetValues();
-        }
-
-        public byte InputSize
-        {
-            get
-            {
-                return _dialogBoxVM.InputSize;
-            }
         }
     }
 }

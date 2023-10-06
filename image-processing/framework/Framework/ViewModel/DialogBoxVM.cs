@@ -6,23 +6,19 @@ using Framework.View;
 using Framework.Model;
 using Framework.Utilities;
 using System.Windows;
+using System.Drawing;
 
 namespace Framework.ViewModel
 {
     class DialogBoxVM : BaseVM
     {
-        public void CreateParameters(List<string> texts)
+        public void CreateParameters(List<string> labels)
         {
-            Height = (texts.Count + 3) * 40;
+            Height = (labels.Count + 3) * 40;
 
-            foreach (var text in texts)
+            foreach (var label in labels)
             {
-                Parameters.Add(new DialogBoxParameter()
-                {
-                    ParamText = text,
-                    Foreground = Theme.TextForeground,
-                    Height = 20,
-                });
+                Parameters.Add(new DialogBoxParameter(label, Theme.TextForeground, 20));
             }
         }
 
@@ -32,7 +28,12 @@ namespace Framework.ViewModel
 
             foreach (var parameter in Parameters)
             {
-                values.Add(parameter.InputText);
+                string value = string.Empty;
+                if (parameter.Value != string.Empty)
+                {
+                    value = parameter.Value;
+                }
+                values.Add(value);
             }
 
             return values;
@@ -59,24 +60,6 @@ namespace Framework.ViewModel
                     });
 
                 return _submitCommand;
-            }
-        }
-
-        public byte InputSize
-        {
-            get
-            {
-                byte size = 0;
-
-                foreach (var parameter in Parameters)
-                {
-                    if (parameter.InputText != null && parameter.InputText != string.Empty)
-                    {
-                        ++size;
-                    }
-                }
-
-                return size;
             }
         }
 
