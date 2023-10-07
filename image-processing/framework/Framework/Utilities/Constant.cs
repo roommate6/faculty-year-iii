@@ -29,6 +29,10 @@ namespace Framework.Utilities
                     leftBound, rightBound);
             }
 
+            public const string NoAreaSelected =
+                "You need to select an area to crop." +
+                " Click twice the initial image canvas to do this action.";
+
             #endregion
         }
 

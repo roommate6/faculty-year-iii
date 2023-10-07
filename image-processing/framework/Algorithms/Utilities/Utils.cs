@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-
+using System.Windows;
+using System.Drawing;
 using static System.Math;
 
 namespace Algorithms.Utilities
@@ -102,6 +103,39 @@ namespace Algorithms.Utilities
         {
             (rhs, lhs) = (lhs, rhs);
         }
+        #endregion
+
+        #region Top left, bottom right
+
+        public static void ToTopLeftBottomRight(ref System.Windows.Point topLeft, ref System.Windows.Point bottomRight)
+        {
+            System.Windows.Point oldTopLeft = new System.Windows.Point()
+            {
+                X = topLeft.X,
+                Y = topLeft.Y,
+            };
+            System.Windows.Point oldBottomRight = new System.Windows.Point()
+            {
+                X = bottomRight.X,
+                Y = bottomRight.Y,
+            };
+
+            topLeft.X = Min(oldTopLeft.X, oldBottomRight.X);
+            topLeft.Y = Min(oldTopLeft.Y, oldBottomRight.Y);
+
+            bottomRight.X = Max(oldTopLeft.X, oldBottomRight.X);
+            bottomRight.Y = Max(oldTopLeft.Y, oldBottomRight.Y);
+        }
+
+        public static System.Drawing.Size GetSizeBasedOn(System.Windows.Point topLeft, System.Windows.Point bottomRight)
+        {
+            return new System.Drawing.Size()
+            {
+                Width = (int)(bottomRight.X - topLeft.X + 1),
+                Height = (int)(bottomRight.Y - topLeft.Y + 1)
+            };
+        }
+
         #endregion
     }
 }

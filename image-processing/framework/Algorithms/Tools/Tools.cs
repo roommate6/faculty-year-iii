@@ -1,6 +1,8 @@
-﻿using Algorithms.Sections;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using System.Windows;
+using System.Drawing;
+using Algorithms.Utilities;
 
 namespace Algorithms.Tools
 {
@@ -64,7 +66,7 @@ namespace Algorithms.Tools
         {
             Image<Gray, byte> result = new Image<Gray, byte>(inputImage.Size);
 
-            for (int y = 0; y < inputImage.Height;y++)
+            for (int y = 0; y < inputImage.Height; y++)
             {
                 for (int x = 0; x < inputImage.Width; x++)
                 {
@@ -82,6 +84,42 @@ namespace Algorithms.Tools
         public static Image<Gray, byte> Thresholding(Image<Bgr, byte> inputImage, byte threshold)
         {
             return Thresholding(inputImage.Convert<Gray, byte>(), threshold);
+        }
+
+        #endregion
+
+        #region Crop
+
+        public static Image<Gray, byte> Crop(Image<Gray, byte> inputImage, System.Windows.Point topLeft, System.Windows.Point bottomRight)
+        {
+            Image<Gray, byte> result = new Image<Gray, byte>(Utils.GetSizeBasedOn(topLeft, bottomRight));
+
+            for (int y = 0; y < result.Height; y++)
+            {
+                for (int x = 0; x < result.Width; x++)
+                {
+                    result.Data[y, x, 0] = inputImage.Data[(int)(topLeft.Y + y), (int)(topLeft.X + x), 0];
+                }
+            }
+
+            return result;
+        }
+
+        public static Image<Bgr, byte> Crop(Image<Bgr, byte> inputImage, System.Windows.Point topLeft, System.Windows.Point bottomRight)
+        {
+            Image<Bgr, byte> result = new Image<Bgr, byte>(Utils.GetSizeBasedOn(topLeft, bottomRight));
+
+            for (int y = 0; y < result.Height; y++)
+            {
+                for (int x = 0; x < result.Width; x++)
+                {
+                    result.Data[y, x, 0] = inputImage.Data[(int)(topLeft.Y + y), (int)(topLeft.X + x), 0];
+                    result.Data[y, x, 1] = inputImage.Data[(int)(topLeft.Y + y), (int)(topLeft.X + x), 1];
+                    result.Data[y, x, 2] = inputImage.Data[(int)(topLeft.Y + y), (int)(topLeft.X + x), 2];
+                }
+            }
+
+            return result;
         }
 
         #endregion

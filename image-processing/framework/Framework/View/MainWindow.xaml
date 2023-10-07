@@ -172,6 +172,17 @@
                           Foreground="#1E1E1E"
                           Command="{Binding Path=MenuCommands.ThresholdingCommand}"
                           CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
+                <MenuItem Header="Crop"
+                          Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.CropCommand}">
+                    <MenuItem.CommandParameter>
+                        <MultiBinding Converter="{StaticResource arrayMultiValueConverter}">
+                            <Binding ElementName="canvasOriginalImage"/>
+                            <Binding ElementName="canvasProcessedImage"/>
+                        </MultiBinding>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+
             </MenuItem>
 
             <MenuItem Header="Pointwise operations"

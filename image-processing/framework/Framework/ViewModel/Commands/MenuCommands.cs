@@ -633,6 +633,55 @@ namespace Framework.ViewModel
 
         #endregion
 
+        #region Crop
+
+        private ICommand _cropCommand;
+
+        public ICommand CropCommand
+        {
+            get
+            {
+                if (_cropCommand == null)
+                {
+                    _cropCommand = new RelayCommand(CropProcedure);
+                }
+                return _cropCommand;
+            }
+        }
+
+        private void CropProcedure(object parameter)
+        {
+            int? clicks = TestCropProcedure();
+            if (clicks == null)
+            {
+                return;
+            }
+
+            object[] canvases = (object[])parameter;
+
+            Point topLeft = VectorOfMousePosition[clicks.Value - 2];
+            Point bottomRight = VectorOfMousePosition[clicks.Value - 1];
+
+            Utils.ToTopLeftBottomRight(ref topLeft, ref bottomRight);
+
+            DrawRectangle(canvases[0] as Canvas, topLeft,
+               bottomRight, 2, Brushes.Red, ScaleValue);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = Tools.Crop(GrayInitialImage, topLeft, bottomRight);
+                ProcessedImage = Convert(GrayProcessedImage);
+                return;
+            }
+            if (ColorInitialImage != null)
+            {
+                ColorProcessedImage = Tools.Crop(ColorInitialImage, topLeft, bottomRight);
+                ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Pointwise operations
@@ -751,6 +800,21 @@ namespace Framework.ViewModel
             }
 
             return threshold;
+        }
+
+        private int? TestCropProcedure()
+        {
+            if (InitialImageMissing())
+            {
+                return null;
+            }
+            int clicks = VectorOfMousePosition.Count;
+            if (clicks < 2)
+            {
+                MessageBox.Show(Constant.Message.NoAreaSelected);
+                return null;
+            }
+            return clicks;
         }
 
         #endregion
