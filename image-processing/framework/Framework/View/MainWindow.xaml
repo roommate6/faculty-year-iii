@@ -182,9 +182,17 @@
                         </MultiBinding>
                     </MenuItem.CommandParameter>
                 </MenuItem>
-                <MenuItem Header="VerticalMirror"
+                <MenuItem Header="Vertical mirror"
                           Foreground="#1E1E1E"
                           Command="{Binding Path=MenuCommands.VerticalMirrorCommand}"
+                          CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
+                <MenuItem Header="Rotate by 90 degrees clockwise"
+                          Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.RotateBy90DegreesClockwiseCommand}"
+                          CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
+                <MenuItem Header="Rotate by 90 degrees anti-clockwise"
+                          Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.RotateBy90DegreesAnticlockwiseCommand}"
                           CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
 
             </MenuItem>

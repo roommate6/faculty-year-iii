@@ -723,6 +723,90 @@ namespace Framework.ViewModel
 
         #endregion
 
+        #region Rotate by 90 degrees
+
+        #region Clockwise
+
+        private ICommand _rotateBy90DegreesClockwiseCommand;
+
+        public ICommand RotateBy90DegreesClockwiseCommand
+        {
+            get
+            {
+                if (_rotateBy90DegreesClockwiseCommand == null)
+                {
+                    _rotateBy90DegreesClockwiseCommand = new RelayCommand(RotateBy90DegreesClockwiseProcedure);
+                }
+                return _rotateBy90DegreesClockwiseCommand;
+            }
+        }
+
+        private void RotateBy90DegreesClockwiseProcedure(object parameter)
+        {
+            if (InitialImageMissing())
+            {
+                return;
+            }
+
+            ClearProcessedCanvas(parameter);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = Tools.RotateBy90Degrees(GrayInitialImage);
+                ProcessedImage = Convert(GrayProcessedImage);
+                return;
+            }
+            if (ColorInitialImage != null)
+            {
+                ColorProcessedImage = Tools.RotateBy90Degrees(ColorInitialImage);
+                ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
+
+        #endregion
+
+        #region Anti-clockwise
+
+        private ICommand _rotateBy90DegreesAnticlockwiseCommand;
+
+        public ICommand RotateBy90DegreesAnticlockwiseCommand
+        {
+            get
+            {
+                if (_rotateBy90DegreesAnticlockwiseCommand == null)
+                {
+                    _rotateBy90DegreesAnticlockwiseCommand = new RelayCommand(RotateBy90DegreesAnticlockwiseProcedure);
+                }
+                return _rotateBy90DegreesAnticlockwiseCommand;
+            }
+        }
+
+        private void RotateBy90DegreesAnticlockwiseProcedure(object parameter)
+        {
+            if (InitialImageMissing())
+            {
+                return;
+            }
+
+            ClearProcessedCanvas(parameter);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = Tools.RotateBy90Degrees(GrayInitialImage, false);
+                ProcessedImage = Convert(GrayProcessedImage);
+                return;
+            }
+            if (ColorInitialImage != null)
+            {
+                ColorProcessedImage = Tools.RotateBy90Degrees(ColorInitialImage, false);
+                ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
         #endregion
 
         #region Pointwise operations
