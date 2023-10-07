@@ -182,6 +182,10 @@
                         </MultiBinding>
                     </MenuItem.CommandParameter>
                 </MenuItem>
+                <MenuItem Header="VerticalMirror"
+                          Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.VerticalMirrorCommand}"
+                          CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
 
             </MenuItem>
 

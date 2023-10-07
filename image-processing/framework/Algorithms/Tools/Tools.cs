@@ -123,5 +123,41 @@ namespace Algorithms.Tools
         }
 
         #endregion
+
+        #region Mirror
+
+        public static Image<Gray, byte> VerticalMirror(Image<Gray, byte> inputImage)
+        {
+            Image<Gray, byte> result = new Image<Gray, byte>(inputImage.Size);
+
+            for (int y = 0; y < result.Height; y++)
+            {
+                for (int x = 0; x < result.Width; x++)
+                {
+                    result.Data[y, x, 0] = inputImage.Data[y, result.Width - x - 1, 0];
+                }
+            }
+
+            return result;
+        }
+
+        public static Image<Bgr, byte> VerticalMirror(Image<Bgr, byte> inputImage)
+        {
+            Image<Bgr, byte> result = new Image<Bgr, byte>(inputImage.Size);
+
+            for (int y = 0; y < result.Height; y++)
+            {
+                for (int x = 0; x < result.Width; x++)
+                {
+                    result.Data[y, x, 0] = inputImage.Data[y, result.Width - x - 1, 0];
+                    result.Data[y, x, 1] = inputImage.Data[y, result.Width - x - 1, 1];
+                    result.Data[y, x, 2] = inputImage.Data[y, result.Width - x - 1, 2];
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }

@@ -658,6 +658,7 @@ namespace Framework.ViewModel
             }
 
             object[] canvases = (object[])parameter;
+            ClearProcessedCanvas(canvases[1]);
 
             Point topLeft = VectorOfMousePosition[clicks.Value - 2];
             Point bottomRight = VectorOfMousePosition[clicks.Value - 1];
@@ -676,6 +677,46 @@ namespace Framework.ViewModel
             if (ColorInitialImage != null)
             {
                 ColorProcessedImage = Tools.Crop(ColorInitialImage, topLeft, bottomRight);
+                ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
+
+        #endregion
+
+        #region Vertical mirror
+
+        private ICommand _verticalMirrorCommand;
+
+        public ICommand VerticalMirrorCommand
+        {
+            get
+            {
+                if (_verticalMirrorCommand == null)
+                {
+                    _verticalMirrorCommand = new RelayCommand(VerticalMirrorProcedure);
+                }
+                return _verticalMirrorCommand;
+            }
+        }
+
+        private void VerticalMirrorProcedure(object parameter)
+        {
+            if (InitialImageMissing())
+            {
+                return;
+            }
+
+            ClearProcessedCanvas(parameter);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = Tools.VerticalMirror(GrayInitialImage);
+                ProcessedImage = Convert(GrayProcessedImage);
+                return;
+            }
+            if (ColorInitialImage != null)
+            {
+                ColorProcessedImage = Tools.VerticalMirror(ColorInitialImage);
                 ProcessedImage = Convert(ColorProcessedImage);
             }
         }
