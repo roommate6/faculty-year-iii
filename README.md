@@ -8,28 +8,28 @@ This repository it's divided in subjects. Each subject it is having it's own fol
 
 ## The subjects
 
-Software engineering
+Software engineering (I - SE)
 
-Logical and functional programming
+Logical and functional programming (I - LaFP)
 
-Web application development
+Web application development (I - WAD)
 
-Specialized practice
+Specialized practice (I - SP)
 
-Human-computer interaction
+Human-computer interaction (I - HCI)
 
-Image processing
+Digital image processing (I - DIP)
 
-IT project management
+IT project management (II - IPM)
 
-Parallel, concurrent and distributed programming
+Parallel, concurrent and distributed programming (II - PCDP)
 
-Probability and statistics for autonomous systems
+Probability and statistics for autonomous systems (II - PSAS)
 
-Practice for the elaboration of the bachelor's thesis
+Practice for the elaboration of the bachelor's thesis (II - PEBT)
 
-Mobile application programming
+Mobile application programming (II - MAP)
 
-Development of computer games
+Development of computer games (II - DoCG)
 
 ---
