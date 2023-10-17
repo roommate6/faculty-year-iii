@@ -17,6 +17,7 @@ using Algorithms.Tools;
 using Algorithms.Utilities;
 using Framework.Utilities;
 using System.Collections.Generic;
+using Algorithms.Sections;
 
 namespace Framework.ViewModel
 {
@@ -28,6 +29,8 @@ namespace Framework.ViewModel
         {
             _mainVM = mainVM;
         }
+
+        #region Private properties
 
         private ImageSource InitialImage
         {
@@ -46,6 +49,8 @@ namespace Framework.ViewModel
             get => _mainVM.ScaleValue;
             set => _mainVM.ScaleValue = value;
         }
+
+        #endregion
 
         #region File
 
@@ -810,6 +815,47 @@ namespace Framework.ViewModel
         #endregion
 
         #region Pointwise operations
+
+        #region Modify the brightness
+
+        private ICommand _brightnessCommand;
+
+        public ICommand BrightnessCommand
+        {
+            get
+            {
+                if (_brightnessCommand == null)
+                {
+                    _brightnessCommand = new RelayCommand(BrightnessProcedure);
+                }
+                return _brightnessCommand;
+            }
+        }
+
+        private void BrightnessProcedure(object parameter)
+        {
+            if (InitialImageMissing())
+            {
+                return;
+            }
+
+            ClearProcessedCanvas(parameter);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = PointwiseOperations.ModifyBrightnessUsingAdditionOperation(GrayInitialImage, 80);
+                ProcessedImage = Convert(GrayProcessedImage);
+                return;
+            }
+            if (ColorInitialImage != null)
+            {
+                //ColorProcessedImage = Tools.RotateBy90Degrees(ColorInitialImage);
+                //ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Thresholding
