@@ -1,41 +1,47 @@
-gcd(X,Y,R):-
-    X < 0,
-    gcd(-X,Y,R).
+:-[nonheterogeneous_versions/gcd].
 
-gcd(X,Y,R):-
-    Y < 0,
-    gcd(X,-Y,R).
+heterogeneous_gcd([L1],R):-
+    number(L1),
+    gcd([L1],R).
 
-gcd(X,0,X):-
-    X > 0.
+heterogeneous_gcd([L1],R):-
+    is_list(L1),
+    gcd(L1,R).
 
-gcd(0,Y,Y):-
-    Y > 0.
+heterogeneous_gcd([L1,L2],R):-
+    number(L1),
+    number(L2),
+    gcd([L1,L2],R).
 
-gcd(X,Y,R):-
-    X > 0,
-    X =:= Y,
-    R is X.
+heterogeneous_gcd([L1,L2],R):-
+    is_list(L1),
+    number(L2),
+    gcd(L1,R1),
+    gcd([R1,L2],R).
 
-gcd(X,Y,R):-
-    X > 0,
-    X < Y,
-    gcd(Y,X,R).
+heterogeneous_gcd([L1,L2],R):-
+    number(L1),
+    is_list(L2),
+    gcd(L2,R2),
+    gcd([L1,R2],R).
 
-gcd(X,Y,R):-
-    X > Y,
-    Y > 0,
-    X1 is X - Y,
-    gcd(X1,Y,R).
+heterogeneous_gcd([L1,L2],R):-
+    is_list(L1),
+    is_list(L2),
+    gcd(L1,R1),
+    gcd(L2,R2),
+    gcd([R1,R2],R).
 
-gcd([L1],R):-
-    L1 < 0,
-    gcd([-L1],R).
+heterogeneous_gcd([L1,L2],R):-
+    atom(L1),
+    \+ atom(L2),
+    heterogeneous_gcd(L2,R).
 
-gcd([L1],R):-
-    L1 > 0,
-    R is L1.
+heterogeneous_gcd([L1,L2],R):-
+    \+ atom(L1),
+    atom(L2),
+    heterogeneous_gcd(L1,R).
 
-gcd([L1,L2|T],R):-
-    gcd(L1,L2,H),
-    gcd([H|T],R).
+heterogeneous_gcd([L1,L2|T],R):-
+    heterogeneous_gcd([L1,L2],RH),
+    heterogeneous_gcd([RH|T],R).
