@@ -5,8 +5,8 @@ heterogeneous_insert([],_,_,_,[]).
 
 heterogeneous_insert([H|T],I,E,K,R):-
     is_list(H),
-    insert(H,I,E,K,RH,RI,RE),
-    heterogeneous_insert(T,I+RI,E+RE,K,RT),
+    insert(H,1,0,K,RH,RI,RE),
+    heterogeneous_insert(T,I,E,K,RT),
     concat(RH,RT,R).
 
 heterogeneous_insert([H|T],I,E,K,[H|RT]):-
