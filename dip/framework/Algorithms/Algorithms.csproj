@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Sections\Filters.cs" />
     <Compile Include="Sections\GeometricTransformations.cs" />
+    <Compile Include="Utilities\LineEquation.cs" />
     <Compile Include="Utilities\LookUpTable.cs" />
     <Compile Include="Utilities\Utils.cs" />
     <Compile Include="Sections\MorphologicalOperations.cs" />

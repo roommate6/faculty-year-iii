@@ -204,6 +204,10 @@
                           Foreground="#1E1E1E"
                           Command="{Binding Path=MenuCommands.BrightnessCommand}"
                           CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
+                <MenuItem Header="Contrast"
+                          Foreground="#1E1E1E"
+                          Command="{Binding Path=MenuCommands.ContrastCommand}"
+                          CommandParameter="{Binding ElementName=canvasProcessedImage}"/>
 
             </MenuItem>
 

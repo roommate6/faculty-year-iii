@@ -856,6 +856,61 @@ namespace Framework.ViewModel
 
         #endregion
 
+        #region Modify the contrast
+
+        private ICommand _contrastCommand;
+
+        public ICommand ContrastCommand
+        {
+            get
+            {
+                if (_contrastCommand == null)
+                {
+                    _contrastCommand = new RelayCommand(ContrastProcedure);
+                }
+                return _contrastCommand;
+            }
+        }
+
+        private void ContrastProcedure(object parameter)
+        {
+            if (InitialImageMissing())
+            {
+                return;
+            }
+
+            List<string> labels = new List<string>
+            {
+                "i1","o1","i2","o2"
+            };
+
+            DialogBox dialogBox = new DialogBox(_mainVM, labels);
+            dialogBox.ShowDialog();
+
+            List<string> values = dialogBox.Values;
+
+            byte i1 = byte.Parse(values[0]);
+            byte o1 = byte.Parse(values[1]);
+            byte i2 = byte.Parse(values[2]);
+            byte o2 = byte.Parse(values[3]);
+
+            ClearProcessedCanvas(parameter);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = PointwiseOperations.ModifyContrast(GrayInitialImage, i1, o1, i2, o2);
+                ProcessedImage = Convert(GrayProcessedImage);
+                return;
+            }
+            if (ColorInitialImage != null)
+            {
+                //ColorProcessedImage = Tools.RotateBy90Degrees(ColorInitialImage);
+                //ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Thresholding
