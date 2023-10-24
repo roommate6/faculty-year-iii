@@ -2,6 +2,7 @@
 using Emgu.CV;
 using Algorithms.Utilities;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace Algorithms.Sections
 {
@@ -53,9 +54,9 @@ namespace Algorithms.Sections
         {
             Image<Gray, byte> outputImage = new Image<Gray, byte>(inputImage.Size);
 
-            System.Func<byte,byte> f1 = LineEquation.GenerateFunctionBasedOn(0, 0, i1, o1);
-            System.Func<byte,byte> f2 = LineEquation.GenerateFunctionBasedOn(i1, o1, i2, o2);
-            System.Func<byte,byte> f3 = LineEquation.GenerateFunctionBasedOn(i2, o2, 255, 255);
+            System.Func<byte, byte> f1 = LineEquation.GenerateFunctionBasedOn(0, 0, i1, o1);
+            System.Func<byte, byte> f2 = LineEquation.GenerateFunctionBasedOn(i1, o1, i2, o2);
+            System.Func<byte, byte> f3 = LineEquation.GenerateFunctionBasedOn(i2, o2, 255, 255);
 
             LookUpTable lookUpTable = new LookUpTable(inputImage,
                 (byte inputPixel) =>
